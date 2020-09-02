@@ -4,7 +4,7 @@ const inquirer = require('inquirer');
 
 const thenableWriteFile = util.promisify(fs.writeFile);
 
-function getHtmlOutput(answers) {
+function Output(answers) {
     const title = answers.title;
     const description = answers.description;
     const tableofContents = answers.tableofContents;
@@ -14,36 +14,16 @@ function getHtmlOutput(answers) {
     const contributing = answers.contributing;
     const tests = answers.tests;
     const questions = answers.questions;
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <title>ReadMe</title>
-</head>
-<body>
-    <div class="container">
-        <div id="basics" aria-label="Basic information">
-            <h3>${title}</h3>
-            <p>Description: ${description}</p>
-        </div>
-        <div id="ToC" aria-labelledby="#ToC-header">
-            <h3 id="ToC-header">Table of Contents</h3>
-            <p>
-                ${tableofContents}
-            </p>
-            <p>Installation: ${installation}</p>
-            <p>Usage: ${usage}</p>
-            <p>License: ${license}</p>
-            <p>Contributors: ${contributing}</p>
-            <p>Tests: ${tests}</p>
-            <p>Questions: ${questions}</p>
-        </div>
-        
-    </div>
-</body>
-</html>`
+    return `
+${title}
+   Description: ${description}
+        Table of Contents: ${tableofContents}
+    Installation: ${installation} 
+    Usage: ${usage}
+    License: ${license}
+    Contributors: ${contributing}
+    Tests: ${tests}
+    Questions: ${questions}`
 }
 inquirer
     .prompt([
@@ -65,7 +45,7 @@ inquirer
         },
         {
             name: 'usage',
-            message: 'What is the usage '
+            message: 'What is the usage? '
         },
         {
             name: 'license',
@@ -85,10 +65,10 @@ inquirer
         },
     ])
     .then(function (answers) {
-        return getHtmlOutput(answers);
+        return Output(answers);
     })
-    .then(function (htmlOutput) {
-        return thenableWriteFile('./ReadMe.html', htmlOutput);
+    .then(function (textOutput) {
+        return thenableWriteFile('./ReadMe.text', textOutput);
     })
     .then(function () {
         console.log('All done!');
