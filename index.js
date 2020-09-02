@@ -5,38 +5,42 @@ const inquirer = require('inquirer');
 const thenableWriteFile = util.promisify(fs.writeFile);
 
 function getHtmlOutput(answers) {
-    const name = answers.name;
-    const location = answers.location;
-    const bio = answers.bio;
-    const githubUserName = answers.githubUserName;
-    const linkedInUserName = answers.linkedinUserName;
+    const title = answers.title;
+    const description = answers.description;
+    const tableofContents = answers.tableofContents;
+    const installation = answers.installation;
+    const usage = answers.usage;
+    const license = answers.license;
+    const contributing = answers.contributing;
+    const tests = answers.tests;
+    const questions = answers.questions;
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <title>Portfolio</title>
+    <title>ReadMe</title>
 </head>
 <body>
     <div class="container">
         <div id="basics" aria-label="Basic information">
-            <h3>${name}</h3>
-            <p>Location: ${location}</p>
+            <h3>${title}</h3>
+            <p>Description: ${description}</p>
         </div>
-        <div id="bio" aria-labelledby="#bio-header">
-            <h3 id="bio-header">Bio</h3>
+        <div id="ToC" aria-labelledby="#ToC-header">
+            <h3 id="ToC-header">Table of Contents</h3>
             <p>
-                ${bio}
+                ${tableofContents}
             </p>
+            <p>Installation: ${installation}</p>
+            <p>Usage: ${usage}</p>
+            <p>License: ${license}</p>
+            <p>Contributors: ${contributing}</p>
+            <p>Tests: ${tests}</p>
+            <p>Questions: ${questions}</p>
         </div>
-        <div id="on-the-web" aria-labelledby="#on-the-web-header">
-            <h3>On The Web</h3>
-            <ul>
-                <li>Github: <a href="https://www.github.com/${githubUserName}">${githubUserName}</a></li>
-                <li>LinkedIn: <a href="https://www.linkedin.com/in/${linkedInUserName}/">${linkedInUserName}</a></li>
-            </ul>
-        </div>
+        
     </div>
 </body>
 </html>`
@@ -44,31 +48,47 @@ function getHtmlOutput(answers) {
 inquirer
     .prompt([
         {
-            name: 'name',
-            message: 'What is your name? '
+            name: 'title',
+            message: 'What will be the title of this file? '
         },
         {
-            name: 'location',
-            message: 'What is your location?'
+            name: 'description',
+            message: 'Type a short description: '
         },
         {
-            name: 'bio',
-            message: 'Type a short bio: '
+            name: 'tableofContents',
+            message: 'Add a Table of Contents:'
         },
         {
-            name: 'githubUserName',
-            message: 'What is your GitHub user name? '
+            name: 'installation',
+            message: 'What needs to be installed?'
         },
         {
-            name: 'linkedinUserName',
-            message: 'What is your LinkedIn user name? '
-        }
+            name: 'usage',
+            message: 'What is the usage '
+        },
+        {
+            name: 'license',
+            message: 'What licenses do you need? '
+        },
+        {
+            name: 'contributing',
+            message: 'Who contributed?'
+        },
+        {
+            name: 'tests',
+            message: 'What tests need to be done?'
+        },
+        {
+            name: 'questions',
+            message: 'What questions need to be answered? '
+        },
     ])
     .then(function (answers) {
         return getHtmlOutput(answers);
     })
     .then(function (htmlOutput) {
-        return thenableWriteFile('./portfolio.html', htmlOutput);
+        return thenableWriteFile('./ReadMe.html', htmlOutput);
     })
     .then(function () {
         console.log('All done!');
