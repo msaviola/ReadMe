@@ -1,0 +1,10 @@
+
+ReadMeGenerator
+   Description: This file generates ReadME text files
+        Table of Contents: none
+    Installation: npm init, and npm inquirer 
+    Usage: education
+    License: none
+    Contributors: msaviola
+    Tests: none
+    Questions: WHEN you answer these questions, THEN the answers are added to the ReadMetext file
